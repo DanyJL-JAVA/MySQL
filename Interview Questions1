@@ -1,0 +1,119 @@
+create table EmployeeDetails(
+EmpId Int primary key,
+FullName varchar(100) not null,
+ManagerID int,
+DateOfJoining date not null,
+City varchar(50)
+
+);
+
+create table EmployeeSalary(
+EmpId int,
+Project varchar(100),
+Salary decimal(10,2) not null,
+Variable decimal(10,2),
+primary key (EmpId, project), -- Composite Primary Key --
+foreign key (EmpId) references EmployeeDetails(EmpId)  -- Foreign key referencing EmployeeDetails Table 
+);
+
+
+# EmployeeDetails Insert Query
+insert into EmployeeDetails(EmpId,FullName,ManagerID,DateOfJoining,City) 
+values (121,'   Ravi Kumar  ',NULL, '2020-01-15', 'Chennai'),
+ (122,'   Sita Devi  ',221, '2021-03-12', 'Coimbatore'),
+ (123,'  Arun  Prasad  ',221, '2019-06-25', 'Madurai'),
+ (124,'  Lakshmi  Narayan  ',223, '2022-08-30', 'Chennai'),
+ (125,'   Mohan Raj ',222, '2023-02-14', 'Salem'), 
+ (126,'Priya Sharma',223, '2020-11-19', 'Kanyakumari');
+ 
+ 
+ 
+ # EmployeeSalary Insert Query
+ insert into EmployeeSalary(EmpId,Project,Salary,Variable)
+ values(121,'Project A',60000, 5000),
+ (126,'Project B',60000, 7000),
+ (122,'Project A',45000, 3000),
+ (125,'Project C',45000, 2000),
+ (123,'Project B',50000, 2500),
+ (124,'Project D',55000, 0);
+ 
+ # Print
+ select * from employeedetails;
+ select * from EmployeeSalary;
+ 
+ # INterview Question ---------------------------
+ 
+  -- 1. Write an sql query to update the employees names by leading and trailing spaces --
+ 
+ #trim (Remove white Spaces in a call value {or} Removing leading and trailing spaces)
+ # ltrim -> Removes only the left hand Spaces 
+ # rtrim -> Removes only the right hand Spaces 
+ # trim -> Removes both hand Spaces.
+ 
+   # DB -> interview
+   # use -> employeedetails
+ 
+ update employeedetails 
+ set FullName = trim(FullName);
+ 
+ 
+ # "Safe Update Mode" is feature specific to Mysql that prevents UPDATE or DELETE Statements from running if they don't include a "WHERE" Clause
+ # This Safegaurd is designed to prevent accidental updation or modification.
+ # sql_safe_updates ^
+ set sql_safe_updates = 0;
+ 
+  -- 1. Write an sql query to update the employees names by leading and trailing spaces --
+  
+  
+   -- 2. show "JoiningDate" in "dd MMM yyyy" format, ex - "15 feb 2013" -- 
+
+   # DB -> interview
+   # use -> employeedetails
+select date_format(DateOfJoining, '%e %b %Y') as JoiningDate from employeedetails;
+select date_format(DateOfJoining, '%d/%m/%Y') as JoiningDate from employeedetails;  
+select date_format(DateOfJoining, '%d-%m-%Y') as JoiningDate from employeedetails;  
+select date_format(DateOfJoining, '%Y-%m-%d') as JoiningDate from employeedetails;  
+select date_format(DateOfJoining, '%D-%M-%Y') as JoiningDate from employeedetails;  
+   
+   -- 2. show "JoiningDate" in "dd MMM yyyy" format, ex - "15 feb 2013" -- 
+   
+      -- 3. Get only year part of "DateOfJoining" -- 
+      
+   # DB -> interview
+   # use -> employeedetails
+      
+   select year(DateOfJoining) as Joining_date from employeedetails;
+   
+   -- 3. Get only year part of "DateOfJoining" -- 
+   
+   
+   -- 4. Get the firstname, current date, joinindate and diff between current date and joining date in months--
+   
+   # DB -> interview
+   # use -> employeedetails
+   
+   # To get "Current date" we can use to Function 1. current_date() 2. now() 
+    #select FullName, DateOfJoining, current_date() from employeedetails; # Date 
+    #select FullName, DateOfJoining, now() from employeedetails; # Date with Timestamp
+   select FullName, DateOfJoining, now(),timestampdiff(MONTH,DateOfJoining,current_date()) from employeedetails;
+   
+   -- 4. Get the firstname, current date, joinindate and diff between current date and joining -date in months--
+   
+   # FYI - alter table employeedetails add gender varchar(100); --> To add a Column
+
+   -- 5. Display the FullName and Gender as M/F. (if Male then M, if Female then F) --
+
+# DB -> interview
+# use -> employeedetails
+
+   select FullName, 
+   case
+   when gender = 'Male' then 'M'
+   when gender = 'Female' then 'F'
+   else ''
+   end
+   as Gender
+   from employeedetails;
+ 
+ -- 5. Display the FullName and Gender as M/F. (if Male then M, if Female then F) --
+ 
