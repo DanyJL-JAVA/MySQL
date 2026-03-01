@@ -1,0 +1,42 @@
+# Db : company
+# table : 1.Departments & 2.Employee
+
+CREATE TABLE Departments (
+    DepartmentID INT PRIMARY KEY AUTO_INCREMENT,
+    DepartmentName VARCHAR(50)
+);
+
+CREATE TABLE Employee (
+    EmployeeID INT PRIMARY KEY AUTO_INCREMENT,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    DepartmentID INT,
+    Salary DECIMAL(10, 2),
+    FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
+);
+
+INSERT INTO Departments (DepartmentName) VALUES ('Engineering'), ('Sales'), ('Finance');
+
+INSERT INTO Employee (FirstName, LastName, DepartmentID, Salary) VALUES
+('Alice', 'Smith', 1, 90000.00),
+('Bob', 'Johnson', 1, 95000.00),
+('Charlie', 'Williams', 2, 75000.00),
+('Diana', 'Brown', 2, 80000.00),
+('Eva', 'Jones', 3, 100000.00),
+('Frank', 'Miller', 3, 110000.00),
+('George', 'Davis', 2, 70000.00);
+
+
+
+## solution
+SELECT 
+    D.DepartmentName, 
+    AVG(E.Salary) AS AverageSalary
+FROM 
+    Employee E
+JOIN 
+    Departments D ON E.DepartmentID = D.DepartmentID
+GROUP BY 
+    D.DepartmentName
+HAVING 
+    AVG(E.Salary) > 80000;
