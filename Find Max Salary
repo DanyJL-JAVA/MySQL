@@ -1,0 +1,11 @@
+# second highest salary
+# Db : company
+# Table : employee
+
+# Without using limit & offset
+select max(Salary) from employee
+where salary < (select max(Salary) from employee);
+
+# With using limit & offset
+select FirstName, Salary from employee 
+order by Salary desc limit 1 offset 1;
