@@ -1,0 +1,145 @@
+# 11. Write the query to get Department wise total(sum) salary, display it in descending order according to salary.
+
+
+use company;
+select * from Employee;
+select * from Departments;
+
+select d.DepartmentName, sum(e.Salary) as Max_Salary from employee e
+join departments d on e.DepartmentID = d.DepartmentID
+group by e.DepartmentID
+order by Max_Salary desc;
+
+########################################################################################################################
+
+# 12. Get Department wise Maxium salary from "EmployeeDetail" table order by salary ascending.
+
+
+use company;
+select * from employee;
+select * from departments;
+
+
+select d.DepartmentName, max(e.Salary) as Max_Salary from employee e
+join departments d on e.DepartmentID = d.DepartmentID
+group by e.DepartmentID
+order by max(e.Salary) asc;
+
+########################################################################################################################
+
+# 13. Write down the query to fetch project name assign to more than one employee,
+
+use company;
+select * from ProjectDetail;
+select * from employee;
+
+select * from ProjectDetail
+where ProjectId in
+(select Project_Id from employee 
+group by Project_Id
+having count(Project_Id) > 1);
+
+########################################################################################################################
+
+# 14. Raise all Employee salary by 20% ?
+
+use interview;
+select * from salary_details;
+
+start transaction;
+update salary_details set salary = salary * 1.2;
+
+
+rollback;
+
+commit;
+
+
+set sql_safe_updates = 0;  # Secure Bulk updates
+
+-- Format
+
+# 1.01 => 1 percent
+# 1.02 => 2 percent
+# 1.05 => 5 percent
+# 1.1 => 10 percent
+# 1.2 => 20 percent
+# 1.5 => 50 percent
+# salary * 2 => 100 percent
+# salary * 3 => 200 percent
+# salary * 6 => 500 percent
+
+-- Eg : (SYNTAX)
+-- UPDATE employees
+-- SET salary = CASE
+--     WHEN department_id = 10 THEN salary * 1.01 -- 1% raise
+--     WHEN department_id = 20 THEN salary * 1.05 -- 5% raise
+--     ELSE salary
+-- END;
+
+########################################################################################################################
+
+# 15. Get employee name, project name order by name from "employee" 
+# and "projectdetail" for all employee if project is not assigned then display "NoProjectAssigned".
+
+use company;
+select * from employee;
+select * from projectdetail;
+
+# Note : 
+# 1. use "LEFT JOIN" for fetching the only from the left table | allows NULL values.
+# 2. Purpose of "coalesce" -> is use to set a default value if value is NULL
+
+select e.FirstName, coalesce(p.ProjectName,'NoProjectAssigned')
+from employee e 
+left join projectdetail p
+on e.Project_Id = p.ProjectId;
+
+##########################################################################################################################
+
+#16. Delete (or) Remove - All Duplicates from a table 
+
+#DB : profile
+#Table : employees
+
+use profile;
+select * from employees;
+
+# ROW_NUMBER - is an WindowFunction
+
+#view
+with temptbl as (select EmployeeID,Name,Department,HireDate,
+ROW_NUMBER() over(partition by EmployeeID order by HireDate asc) as RoWNum
+from employees)
+-- Drag an Run both the Query at a time
+select EmployeeID,Name,Department,HireDate from temptbl where RoWNum = 1;
+
+ -- Delete
+ 
+delete from employees where HireDate in 
+(select HireDate from (
+select HireDate, row_number() over(partition by EmployeeID order by HireDate asc) as rownum from employees) t where rownum > 1);
+
+
+# Implementation
+
+#Create Query
+-- create table Employees(EmployeeID int,Name varchar(100),
+-- Department varchar(50),HireDate date);
+
+#Insert Query
+-- insert into Employees(EmployeeID, Name, Department,HireDate) values
+-- (1,'Alice','HR','2020-05-01'),
+-- (1,'Alice','HR','2020-06-15'),
+-- (2,'bob','IT','2021-07-10'),
+-- (3,'Charlie','Finance','2020-09-30'),
+-- (3,'Charlie','Finance','2020-05-22');
+
+# TRUNCATE TABLE employees; -> delete's all the value inside the table
+
+# set sql_safe_updates = 0;
+
+
+#############################################################################################################################
+
+
