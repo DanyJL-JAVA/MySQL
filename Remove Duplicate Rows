@@ -1,0 +1,41 @@
+#16. Delete (or) Remove - All Duplicates from a table 
+
+#DB : profile
+#Table : employees
+
+use profile;
+select * from employees;
+
+# ROW_NUMBER - is an WindowFunction
+
+#view
+with temptbl as (select EmployeeID,Name,Department,HireDate,
+ROW_NUMBER() over(partition by EmployeeID order by HireDate asc) as RoWNum
+from employees)
+-- Drag an Run both the Query at a time
+select EmployeeID,Name,Department,HireDate from temptbl where RoWNum = 1;
+
+ -- Delete
+ 
+delete from employees where HireDate in 
+(select HireDate from (
+select HireDate, row_number() over(partition by EmployeeID order by HireDate asc) as rownum from employees) t where rownum > 1);
+
+
+# Implementation
+
+#Create Query
+-- create table Employees(EmployeeID int,Name varchar(100),
+-- Department varchar(50),HireDate date);
+
+#Insert Query
+-- insert into Employees(EmployeeID, Name, Department,HireDate) values
+-- (1,'Alice','HR','2020-05-01'),
+-- (1,'Alice','HR','2020-06-15'),
+-- (2,'bob','IT','2021-07-10'),
+-- (3,'Charlie','Finance','2020-09-30'),
+-- (3,'Charlie','Finance','2020-05-22');
+
+# TRUNCATE TABLE employees; -> delete's all the value inside the table
+
+# set sql_safe_updates = 0;
