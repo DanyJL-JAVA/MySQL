@@ -21,6 +21,17 @@ delete from employees where HireDate in
 (select HireDate from (
 select HireDate, row_number() over(partition by EmployeeID order by HireDate asc) as rownum from employees) t where rownum > 1);
 
+-- Other Easy Way My Idea to Delete
+
+with tmptbl as (select EmployeeID, Name, Department,HireDate, 
+row_number() over(partition by EmployeeId order by HireDate asc) as rowNum from Employees) 
+
+delete from Employees where HireDate in (
+select HireDate from tmptbl where rowNum > 1
+);
+
+-------------------------------------------------
+
 
 # Implementation
 
