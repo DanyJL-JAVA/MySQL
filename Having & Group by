@@ -41,3 +41,50 @@ having sum(amount) > 2000;
 #Note : For Date -> We Have Decalring with "". eg : "2025-11-23" -> keep in Mind.
 #Note : count(),sum(),avg() -> we Call it as Aggregate function.
 #Note : If you're going with group by we should write the "Conditions" using "Having" Instead of "Where".
+
+
+###########################################################################################################################################################
+
+
+
+# Create DB
+create database Havingtbl;
+
+# Using DB
+use Havingtbl;
+
+#Create Query
+create table bills(serial_no int primary key auto_increment,P_Name varchar(30));
+
+# Alter Query
+alter table bills 
+add amount int;
+
+alter table bills
+add bill_date date;
+
+# INSERT Query
+insert into bills(P_Name,bill_date,amount) values("Goms","2025-11-23",1500000);
+insert into bills(P_Name,bill_date,amount) values("code io","2025-11-23",1500);
+insert into bills(P_Name,bill_date,amount) values("Siva","2024-10-23",1000);
+
+insert into bills(P_Name,bill_date,amount) values("Goms","2025-10-23",13000);
+insert into bills(P_Name,bill_date,amount) values("Goms","2024-10-23",10000);
+insert into bills(P_Name,bill_date,amount) values("Siva","2025-10-23",1500);
+
+# Select Query
+select * from bills;
+
+#Question - Average the amount based on the Date and Patient Name Should not be "code io".
+#HINT : avg amount - group by date -Patient should not be code io
+
+#Solution
+
+select avg(amount) as Average_amount,bill_date
+from bills
+where P_Name not in('code io')
+group by bill_date;
+
+
+
+
