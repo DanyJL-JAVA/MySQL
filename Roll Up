@@ -1,0 +1,32 @@
+
+# use Query
+use havingtbl;
+
+#Create Query
+create table employees(serial_no int primary key auto_increment,name varchar(30),age int,salary int,join_date date,manager_id int);
+
+# select Query
+select * from employees;
+
+#Insert Query
+insert into employees(name,age,salary,join_date,manager_id) values('Radhi',40,100000,"2023-01-23",4);
+insert into employees(name,age,salary,join_date,manager_id) values('Reena',23,50000,"2019-03-23",1);
+insert into employees(name,age,salary,join_date,manager_id) values('Vijay',40,150000,"2019-03-23",4);
+insert into employees(name,age,salary,join_date,manager_id) values('Goms',25,1500000,"2019-03-25",null);
+insert into employees(name,age,salary,join_date,manager_id) values('Raja',25,25000,"2025-01-23",1);
+insert into employees(name,age,salary,join_date,manager_id) values('Hareesh',25,25000,"2025-01-23",3);
+insert into employees(name,age,salary,join_date,manager_id) values('Harish',25,25000,"2025-01-26",3);
+
+#Question : Average the salary, group by manager_id with rollup - (i.e : Sum of all Average salary).
+
+# Solution
+select avg(salary),manager_id from employees
+group by manager_id with rollup;
+
+
+#Notes:
+
+#Note : rollup is an Part of group by
+#Note : It is implemented by using the keyword : "with"
+#Note : Functionality -> Summing all the values (or) Grand Total
+
