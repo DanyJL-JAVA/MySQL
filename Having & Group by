@@ -1,0 +1,43 @@
+# Create DB
+create database Havingtbl;
+
+# Using DB
+use Havingtbl;
+
+#Create Query
+create table bills(serial_no int primary key auto_increment,P_Name varchar(30));
+
+# Alter Query
+alter table bills 
+add amount int;
+
+alter table bills
+add bill_date date;
+
+# INSERT Query
+insert into bills(P_Name,bill_date,amount) values("Goms","2025-11-23",1500000);
+insert into bills(P_Name,bill_date,amount) values("code io","2025-11-23",1500);
+insert into bills(P_Name,bill_date,amount) values("Siva","2024-10-23",1000);
+
+insert into bills(P_Name,bill_date,amount) values("Goms","2025-10-23",13000);
+insert into bills(P_Name,bill_date,amount) values("Goms","2024-10-23",10000);
+insert into bills(P_Name,bill_date,amount) values("Siva","2025-10-23",1500);
+
+# Select Query
+select * from bills;
+
+
+#Question: List the Patients (i.e : P_Name) who are having greater than 2000 Bill amount.
+
+# Solution
+select sum(amount),P_Name from bills
+group by P_Name
+having sum(amount) > 2000; 
+
+
+#NOTES: 
+
+#Note : Dont need to add Serial_no column as we have mentioned it as Auto_Increment
+#Note : For Date -> We Have Decalring with "". eg : "2025-11-23" -> keep in Mind.
+#Note : count(),sum(),avg() -> we Call it as Aggregate function.
+#Note : If you're going with group by we should write the "Conditions" using "Having" Instead of "Where".
