@@ -1,0 +1,58 @@
+#Window Function - Row_Number,Rank,Dense_Rank,Partition By
+
+# use Query
+use havingtbl;
+
+#Create Query
+create table employees(serial_no int primary key auto_increment,name varchar(30),age int,salary int,join_date date,manager_id int);
+
+# select Query
+select * from employees;
+
+#Insert Query
+insert into employees(name,age,salary,join_date,manager_id) values('Radhi',40,100000,"2023-01-23",4);
+insert into employees(name,age,salary,join_date,manager_id) values('Reena',23,50000,"2019-03-23",1);
+insert into employees(name,age,salary,join_date,manager_id) values('Vijay',40,150000,"2019-03-23",4);
+insert into employees(name,age,salary,join_date,manager_id) values('Goms',25,1500000,"2019-03-25",null);
+insert into employees(name,age,salary,join_date,manager_id) values('Raja',25,25000,"2025-01-23",1);
+insert into employees(name,age,salary,join_date,manager_id) values('Hareesh',25,25000,"2025-01-23",3);
+insert into employees(name,age,salary,join_date,manager_id) values('Harish',25,25000,"2025-01-26",3);
+
+
+#Question - Row_Number,Rank,Dense_Rank
+
+#Solution
+select name,salary,join_date,
+row_number() over(order by join_date) as "Row Number",
+rank() over(order by join_date) as "Rank",
+dense_rank() over(order by join_date) as "Dense_Rank"
+from employees;
+
+
+#Question - Partition By
+
+#Solution
+select name, manager_id,join_date,
+row_number() over(partition by manager_id order by join_date)
+from employees;
+
+
+
+#NOTES
+
+#Note -> If you using the "Built in Keywords" like - RANK,ROW_NUMBER,SUM etc.. as an alias name (i.e : as Rank) we can write it within double courts (" ") for error safe.
+
+
+#Row_Number - AutoIncrements the Numbers from 1 to n without skiping the order based on the "order by".
+#Rank - AutoIncrements the Number the Number Based on the RANK(as like our School Progress card) 
+# If any of two people is getting 1st Rank then 2nd Rank will be Skipped here. and it will start with 3,4,5. 
+# So, If Same Variable is Present it will give the Same RANK and the Next Rank will be Skipped.
+
+#Dense Rank - In Dense_Rank the Next Nuber will not be Skipped.
+#Partion by - Works based on the order by. It will Increament the number till the Matching numbers given in order by then it will start from 1'st for the next Numbers.
+
+
+
+
+
+
