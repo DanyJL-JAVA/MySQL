@@ -27,7 +27,7 @@ insert into bills(P_Name,bill_date,amount) values("Siva","2025-10-23",1500);
 select * from bills;
 
 
-#Question: List the Patients (i.e : P_Name) who are having greater than 2000 Bill amount.
+#Question: Sum the amount history records for all the individual patients and List the Patients (i.e : P_Name) who are having greater than 2000 Bill amount.
 
 # Solution
 select sum(amount),P_Name from bills
