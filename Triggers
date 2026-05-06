@@ -1,0 +1,88 @@
+# Stored Procedures
+
+# use Db : TriggerDB
+
+create database TriggerDB;
+use TriggerDB;
+
+# use table : employees,employees_audit
+
+select * from employees;
+select * from employees_audit;
+
+
+# create Query
+
+CREATE TABLE employees (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    position VARCHAR(100),
+    salary DECIMAL(10, 2)
+);
+
+CREATE TABLE employees_audit (
+    audit_id INT AUTO_INCREMENT PRIMARY KEY,
+    employee_id INT,
+    old_salary DECIMAL(10, 2),
+    new_salary DECIMAL(10, 2),
+    change_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+# create Query
+
+# Insert Query
+insert into employees(id,name,position,salary) values(1,"santhosh","devoloper",80000);
+# Insert Query
+
+
+#view Query
+select * from employees;
+select * from employees_audit;
+#view Query
+
+
+# Trigger Query
+
+delimiter //
+
+CREATE TRIGGER after_employee_update
+AFTER UPDATE ON employees
+FOR EACH ROW
+BEGIN
+    INSERT INTO employees_audit (employee_id, old_salary, new_salary)
+    VALUES (OLD.id, OLD.salary, NEW.salary);
+END //
+
+delimiter ;
+
+# Trigger Query
+
+
+# Checking Query : Checking After Updating it auto triggers and update the employees_audit table.
+
+UPDATE employees
+SET salary = 75000
+WHERE id = 1;
+
+# Checking Query : Checking After Updating it auto triggers and update the employees_audit table.
+
+select * from employees;
+select * from employees_audit;
+
+
+###########################################################################
+
+
+#Notes :
+
+# OLD and NEW keyword
+# OLD.column_Name -> Reference a column value from the row before it is updated or deleted. It is read only
+# NEW.column_Name -> Reference a Incoming value for a row after an update or insert.
+# These are available for FOR EACH ROW triggers.
+
+
+
+
+
+
+
