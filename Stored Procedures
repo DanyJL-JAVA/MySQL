@@ -1,0 +1,79 @@
+# DB : office
+use office;
+
+# table : employees
+select * from employees;
+
+###################################################
+
+#Without IN,Out
+delimiter //
+create procedure offPro()
+begin
+
+select emp_id,emp_name,salary,job_name 
+from employees;
+
+end//
+delimiter ;
+
+call offPro();
+
+#Without IN,Out
+
+####################################################
+
+#With IN
+
+delimiter //
+create procedure offProIn(in empId int)
+begin
+
+select emp_id,emp_name,salary,job_name 
+from employees
+where emp_id = empId;
+
+end //
+
+delimiter ;
+
+call offProIn(65646);
+
+#With IN
+
+####################################################
+
+#With Out
+
+delimiter //
+
+create procedure offProInOut(in empId int, out empName varchar(30))
+begin
+
+select emp_Name into empName
+from employees where emp_id = empId;
+
+end //
+
+delimiter ;
+
+#With Out
+
+set @empName = ''; # set -> as like const we use in Js -> Accepting all kind of datatypes.
+
+call offProInOut(65646, @empName);
+
+select @empName;
+
+#output : JONAS
+
+####################################################
+
+select * from employees;
+
+
+#Notes : 
+
+# 1. drop procedure offProInOut; - use if Needed
+# 2. Don't miss @ in start of declaring a Variable.(i.e : set @empName = '';)
+# 3. set @empName = ''; # set -> as like const we use in Js -> Accepting all kind of datatypes.
