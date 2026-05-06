@@ -41,6 +41,7 @@ having sum(amount) > 2000;
 #Note : For Date -> We Have Decalring with "". eg : "2025-11-23" -> keep in Mind.
 #Note : count(),sum(),avg() -> we Call it as Aggregate function.
 #Note : If you're going with group by we should write the "Conditions" using "Having" Instead of "Where".
+#Note : *the "select" field will not accept the unrelated columns to the condition. mostly the Coulmn declared in the grouping by is acceptable.Please keep in mind when we write fields in select query should be Matching or related to the condition.
 
 
 ###########################################################################################################################################################
