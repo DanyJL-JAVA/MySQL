@@ -1,0 +1,11 @@
+#Database : company
+use company;
+#Table : employee
+select  * from employee;
+
+with tmptbl as (select EmployeeID,FirstName,LastName,DepartmentID,Salary,Project_Id,
+dense_rank() over(partition by DepartmentID order by Salary desc) as ROW_NUM
+from employee)
+
+select EmployeeID,FirstName,LastName,DepartmentID,Salary,Project_Id,ROW_NUM 
+from tmptbl where EmployeeID in (select EmployeeID from tmptbl where ROW_NUM in (1));
