@@ -1,1 +1,15 @@
 
+# Db
+use company;
+
+# table 1 : employee
+select  * from employee;
+
+# table 2 : departments
+select * from departments;
+
+
+select d.DepartmentName,d.DepartmentID, count(e.DepartmentID) as counts from employee e
+inner join departments d on d.DepartmentID = e.DepartmentID
+group by e.DepartmentID;
+
