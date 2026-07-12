@@ -1,0 +1,14 @@
+
+#DB
+use company;
+
+#TABLE
+select * from employee;
+
+select * from employee
+where Salary in (
+select Salary from employee
+group by Salary
+having count(Salary) > 1
+);
+
