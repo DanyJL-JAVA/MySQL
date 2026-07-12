@@ -1,0 +1,41 @@
+#db
+use office;
+# table
+select * from  Employee;
+
+-- Create the employee table  // Note: E -> is Case Sensiive Employee
+CREATE TABLE Employee (
+    id INT PRIMARY KEY,
+    name VARCHAR(50),
+    salary INT,
+    managerId INT
+);
+
+-- Insert sample records
+INSERT INTO Employee (id, name, salary, managerId) VALUES
+(1, 'Joe', 70000, 3),   -- Reports to Sam (Joe earns more than Sam)
+(2, 'Henry', 80000, 4), -- Reports to Max (Henry earns less than Max)
+(3, 'Sam', 60000, NULL),-- Top manager (No manager)
+(4, 'Max', 90000, NULL);-- Top manager (No manager)
+
+#select
+select * from Employee;
+
+-- -------------------------------------------------------------------
+#Solution
+SELECT 
+    emp.name AS Employee,
+    emp.salary AS Employee_Salary,
+    mgr.name AS Manager,
+    mgr.salary AS Manager_Salary
+FROM 
+    Employee emp
+INNER JOIN 
+    Employee mgr ON emp.managerId = mgr.id
+WHERE 
+    emp.salary > mgr.salary;
+
+-- -------------------------------------------------------------------
+
+#OUTPUT
+-- Joe	70000	Sam	60000
